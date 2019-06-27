@@ -9,7 +9,6 @@ yum -y install epel-release
 # 安装pip
 yum -y install python-pip
 pip install --upgrade pip -i https://pypi.douban.com/simple
-pip install django==1.8.7 -i https://pypi.douban.com/simple
 
 # 安装虚拟环境并进行设置
 pip install virtualenv virtualenvwrapper -i https://pypi.douban.com/simple
@@ -21,6 +20,9 @@ echo 'source /usr/bin/virtualenvwrapper.sh' >> ~/.bashrc
 source ~/.bashrc 
 
 mkvirtualenv --python=/usr/bin/python2.7  myenv 
+source  /.virtualenvs/myenv/bin/activate
+pip install --upgrade pip -i https://pypi.douban.com/simple
+pip install django==1.8.7 -i https://pypi.douban.com/simple
 
 yum -y install mariadb mariadb-server
 yum -y install MySQL-python mariadb-devel
