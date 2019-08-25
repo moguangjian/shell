@@ -41,6 +41,13 @@ fi
 if ! grep "python2" /usr/libexec/urlgrabber-ext-down  >/dev/null 2>&1;then
     sed -i 's/python/python2.7/' /usr/libexec/urlgrabber-ext-down
 fi
+# 防火墙的设置
+if ! grep "python2" /usr/bin/firewall-cmd  >/dev/null 2>&1;then
+    sed -i 's/python/python2.7/' /usr/bin/firewall-cmd
+fi
+if ! grep "python2" /usr/sbin/firewalld  >/dev/null 2>&1;then
+    sed -i 's/python/python2.7/' /usr/sbin/firewalld
+fi
 #sed -i 's/python/python2.7/' /usr/bin/yum  
 #sed -i 's/python/python2.7/' /usr/bin/yum-builddep  
 #sed -i 's/python/python2.7/' /usr/bin/yum-config-manager 
