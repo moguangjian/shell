@@ -1,7 +1,8 @@
 cd /usr/src
-yum -y install curl-devel wget
+yum -y install curl-devel wget perl-ExtUtils-MakeMaker package
+service httpd restart
 wget https://Github.com/Git/Git/archive/v2.7.3.tar.gz
-tar xzf git-2.7.3.tar.gz
+tar xzf v2.7.3.tar.gz
 cd git-2.7.3
 make prefix=/usr/local/git all
 make prefix=/usr/local/git install
