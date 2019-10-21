@@ -1,6 +1,7 @@
 #!/bin/bash
 # 本脚本用于安装pytthon3 、uwsgi、nginx
 
+
 # 更新源
 yum install -y epel-release 
 yum install -y https://centos7.iuscommunity.org/ius-release.rpm 
