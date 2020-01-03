@@ -50,4 +50,12 @@ systemctl restart network
 
 # ping www.sina.com.cn
 
+# 以下是图形化安装虚拟机，使用前请先将系统镜像上传到/var/lib/libvirt/images/
+# mkdir /data
+# virt-install --name=vm2 --memory=2048,maxmemory=4096 --vcpus=2,maxvcpus=4 --os-type=linux --os-variant=rhel7 --location=/var/lib/libvirt/images/CentOS-7-x86_64-DVD-1908.iso --disk path=/data/vm2.img,size=10 --bridge=br0 --vnc --vncport=5910 --vnclisten=0.0.0.0
+
+# 以下是命令行安装虚拟机，使用前请先将系统镜像上传到/var/lib/libvirt/images/
+# mkdir /data
+# virt-install --name=vm1 --memory=2048,maxmemory=4096 --vcpus=2,maxvcpus=4 --os-type=linux --os-variant=rhel7 --location=/var/lib/libvirt/images/CentOS-7-x86_64-DVD-1908.iso --disk path=/data/vm1.img,size=10 --bridge=br0 --graphics=none --console=pty,target_type=serial  --extra-args="console=tty0 console=ttyS0"
+
 
