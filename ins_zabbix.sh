@@ -41,7 +41,7 @@ systemctl start mariadb
 systemctl enable mariadb
 
 # 初始化mysql数据库，并配置root用户密码
-# mysqladmin -u root password ykadmin123
+# mysqladmin -u $DBAdminUser password $DBAdminPass
 # mysql -uroot -pykadmin123 <<EOF
 # select user, host, password from mysql.user;
 # drop user ''@'localhost';
@@ -51,8 +51,8 @@ systemctl enable mariadb
 mysql_secure_installation <<EOF
 
 Y
-ykadmin123
-ykadmin123
+$DBAdminPass
+$DBAdminPass
 Y
 Y
 Y
@@ -60,9 +60,9 @@ Y
 EOF
 
 # 创建数据库
-mysql -uroot -pykadmin123 <<EOF
+mysql -u$DBAdminUser -p$DBAdminPass <<EOF
 CREATE DATABASE zabbix character set utf8 collate utf8_bin;       
-GRANT all ON zabbix.* TO 'zabbix'@'%' IDENTIFIED BY 'ykadmin123';
+GRANT all ON zabbix.* TO '$ZabbixDBUser'@'%' IDENTIFIED BY '$ZabbixDBPass';
 flush privileges;    
 quit            
 EOF
@@ -77,7 +77,7 @@ yum install php-bcmath php-mbstring -y
 
 # 测试LAMP是否搭建成功
 echo '<?php' > /var/www/html/index.php
-echo '$link=mysql_connect("127.0.0.1","zabbix","ykadmin123");' >> /var/www/html/index.php
+echo '$link=mysql_connect("127.0.0.1","$ZabbixDBUser","$ZabbixDBPass");' >> /var/www/html/index.php
 echo 'if($link) echo "<h1>Success!!</h1>";' >> /var/www/html/index.php
 echo 'else echo "Fail!!";' >> /var/www/html/index.php
 echo 'mysql_close();' >> /var/www/html/index.php
@@ -117,9 +117,9 @@ yum install zabbix-server-mysql zabbix-web-mysql -y
 ## 导入数据到数据库zabbix中(最后一个zabbix是数据库zabbix)，且因为用户zabbix是%(任意主机)，所以登录时需要加上当前主机ip(-h 172.18.20.224),密码是用户zabbix登陆密码ykadmin123
 
 
-zcat /usr/share/doc/zabbix-server-mysql-4.0.*/create.sql.gz | mysql -uzabbix -pykadmin123 -h 127.0.0.1 zabbix   
+zcat /usr/share/doc/zabbix-server-mysql-4.0.*/create.sql.gz | mysql -u$ZabbixDBUser -p$ZabbixDBPass -h 127.0.0.1 zabbix   
 
-sed -i "s/# DBPassword=/DBPassword=ykadmin123/g" /etc/zabbix/zabbix_server.conf
+sed -i "s/# DBPassword=/DBPassword=$ZabbixDBPass/g" /etc/zabbix/zabbix_server.conf
 sed -i "s/# php_value date.timezone Europe\/Riga/php_value date.timezone Asia\/Shanghai/g" /etc/httpd/conf.d/zabbix.conf
 
 # 启动并加入开机自启动zabbix-server
